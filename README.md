@@ -1,6 +1,6 @@
 # HW4
 ## Devlog
-Write your Devlog here!
+
 
 ## Open-Source Assets
 If you added any other assets, list them here!
