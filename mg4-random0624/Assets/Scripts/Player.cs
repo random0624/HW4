@@ -6,6 +6,29 @@ public class Player : MonoBehaviour
     [SerializeField] private Collider2D _collider;
     [SerializeField] private float _jump = 5f;
 
+    private bool _isDead = false;
+
+    void OnEnable()
+    {
+        if (GameController.Instance != null)
+        {
+            GameController.Instance.OnGameOver += OnDeath;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (GameController.Instance != null)
+        {
+            GameController.Instance.OnGameOver -= OnDeath;
+        }
+    }
+
+    void OnDeath()
+    {
+        _isDead = true;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +43,8 @@ public class Player : MonoBehaviour
 
     void Flap()
     {
+        if (_isDead) return;
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _rigidbody.velocity = new Vector2(
@@ -43,6 +68,13 @@ public class Player : MonoBehaviour
             if (GameController.Instance != null)
             {
                 GameController.Instance.AddScore();
+            }
+        }
+        if (other.CompareTag("Pipe"))
+        {
+            if (GameController.Instance != null)
+            {
+                GameController.Instance.GameOver();
             }
         }
     }

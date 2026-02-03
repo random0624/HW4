@@ -9,6 +9,9 @@ public class GameController : MonoBehaviour
 
     // Events for score changes
     public event Action<int> OnScoreChanged;
+    
+    // Event for game over
+    public event Action OnGameOver;
 
     // UI reference for score display
     [SerializeField] private TextMeshProUGUI _scoreText;
@@ -92,12 +95,12 @@ public class GameController : MonoBehaviour
         
         _isGameActive = false;
         
+        // Notify all subscribers that game is over
+        OnGameOver?.Invoke();
+        
         if (_deathSound != null)
         {
             _deathSound.Play();
         }
-
-        // Stop the game by setting time scale to 0
-        Time.timeScale = 0f;
     }
 }
